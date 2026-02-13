@@ -24,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.roller.util.RollerConstants;
 import org.apache.roller.weblogger.TestUtils;
+import org.apache.roller.weblogger.business.CategoryManager;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
 import org.apache.roller.weblogger.business.WebloggerFactory;
 import org.apache.roller.weblogger.pojos.User;
@@ -133,11 +134,13 @@ public class IndexManagerTest {
 
         // save and index those entries
 
+        CategoryManager catManager = WebloggerFactory.getWeblogger().getCategoryManager();
+
         for (WeblogEntry entry : entries) {
 
             // fill in relationship fields to make JPA happy
 
-            WeblogCategory cat = entryManager.getWeblogCategory(
+            WeblogCategory cat = catManager.getWeblogCategory(
                 testWeblog.getWeblogCategory("General").getId());
             entry.setCategory(cat);
             entry.setWebsite(TestUtils.getManagedWebsite(testWeblog));

@@ -23,7 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.roller.weblogger.WebloggerException;
-import org.apache.roller.weblogger.business.WeblogEntryManager;
+import org.apache.roller.weblogger.business.CategoryManager;
 import org.apache.roller.weblogger.business.WebloggerFactory;
 import org.apache.roller.weblogger.pojos.WeblogCategory;
 import org.apache.roller.weblogger.pojos.WeblogEntry;
@@ -304,7 +304,7 @@ public class EntryBean {
         if (getCategoryId() != null) {
             WeblogCategory cat = null;
             try {
-                WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+                CategoryManager wmgr = WebloggerFactory.getWeblogger().getCategoryManager();
                 cat = wmgr.getWeblogCategory(getCategoryId());
             } catch (WebloggerException ex) {
                 log.error("Error getting category by id", ex);

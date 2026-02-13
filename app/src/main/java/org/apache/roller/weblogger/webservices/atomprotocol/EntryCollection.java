@@ -45,6 +45,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.roller.weblogger.WebloggerException;
+import org.apache.roller.weblogger.business.CategoryManager;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
 import org.apache.roller.weblogger.business.Weblogger;
 import org.apache.roller.weblogger.business.WebloggerFactory;
@@ -429,7 +430,7 @@ public class EntryCollection {
                     String catString = cat.getTerm();
                     if (catString != null) {
                         WeblogCategory rollerCat =
-                                roller.getWeblogEntryManager().getWeblogCategoryByName(
+                                roller.getCategoryManager().getWeblogCategoryByName(
                                 rollerEntry.getWebsite(), catString);
                         if (rollerCat != null) {
                             // Found a valid category, so break out

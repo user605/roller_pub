@@ -145,7 +145,7 @@ nisi. Duis lacinia enim id dui. Maecenas a leo. Duis lacus.""" ]
 
             def cat = new org.apache.roller.weblogger.pojos.WeblogCategory(
                 website, "cat1", "cat1", null);
-            roller.getWeblogEntryManager().saveWeblogCategory(cat);
+            roller.getCategoryManager().saveWeblogCategory(cat);
             //website.setDefaultCategory(cat);
             roller.getUserManager().grantWeblogPermission(website, user, ["post", "admin"]);
             roller.flush();
@@ -162,7 +162,7 @@ nisi. Duis lacinia enim id dui. Maecenas a leo. Duis lacus.""" ]
             entry.setWebsite(blog);
             entry.setCreatorUserName(blog.getCreatorUserName());
             def catName = categories.get((int)(Math.random() * categories.size()))
-            def category = roller.getWeblogEntryManager().getWeblogCategoryByName(blog,catName)
+            def category = roller.getCategoryManager().getWeblogCategoryByName(blog,catName)
             entry.setCategory(category);
             entry.setPubTime( new java.sql.Timestamp(pubTime.getTime()));
             entry.setUpdateTime( new java.sql.Timestamp(pubTime.getTime()));
@@ -188,7 +188,7 @@ nisi. Duis lacinia enim id dui. Maecenas a leo. Duis lacus.""" ]
             comment.setContent(content);
             comment.setNotify(Boolean.FALSE);
             comment.setStatus(org.apache.roller.weblogger.pojos.WeblogEntryComment.ApprovalStatus.APPROVED);
-            roller.getWeblogEntryManager().saveComment(comment);
+            roller.getCommentManager().saveComment(comment);
             roller.flush();
         } catch (Exception e) {
             e.printStackTrace()

@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.roller.weblogger.WebloggerException;
+import org.apache.roller.weblogger.business.CategoryManager;
 import org.apache.roller.weblogger.business.WebloggerFactory;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
 import org.apache.roller.weblogger.pojos.WeblogEntry.PubStatus;
@@ -205,7 +206,7 @@ public class WeblogCategory implements Serializable, Comparable<WeblogCategory> 
      */
     public boolean isInUse() {
         try {
-            return WebloggerFactory.getWeblogger().getWeblogEntryManager().isWeblogCategoryInUse(this);
+            return WebloggerFactory.getWeblogger().getCategoryManager().isWeblogCategoryInUse(this);
         } catch (WebloggerException e) {
             throw new RuntimeException(e);
         }

@@ -33,6 +33,10 @@ import org.apache.roller.weblogger.business.BookmarkManager;
 import org.apache.roller.weblogger.business.plugins.PluginManager;
 import org.apache.roller.weblogger.business.Weblogger;
 import org.apache.roller.weblogger.business.themes.ThemeManager;
+import org.apache.roller.weblogger.business.CategoryManager;
+import org.apache.roller.weblogger.business.HitCountManager;
+import org.apache.roller.weblogger.business.TagManager;
+import org.apache.roller.weblogger.business.CommentManager;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
 import org.apache.roller.weblogger.pojos.WeblogEntry.PubStatus;
 import org.apache.roller.util.UUIDGenerator;
@@ -619,9 +623,9 @@ public class Weblog implements Serializable {
         WeblogCategory category = null;
         try {
             Weblogger roller = WebloggerFactory.getWeblogger();
-            WeblogEntryManager wmgr = roller.getWeblogEntryManager();
+            CategoryManager cmgr = roller.getCategoryManager();
             if (categoryName != null && !categoryName.equals("nil")) {
-                category = wmgr.getWeblogCategoryByName(this, categoryName);
+                category = cmgr.getWeblogCategoryByName(this, categoryName);
             } else {
                 category = getWeblogCategories().iterator().next();
             }
@@ -709,13 +713,13 @@ public class Weblog implements Serializable {
             return Collections.emptyList();
         }
         try {
-            WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+            CommentManager cmgr = WebloggerFactory.getWeblogger().getCommentManager();
             CommentSearchCriteria csc = new CommentSearchCriteria();
             csc.setWeblog(this);
             csc.setStatus(WeblogEntryComment.ApprovalStatus.APPROVED);
             csc.setReverseChrono(true);
             csc.setMaxResults(length);
-            return wmgr.getComments(csc);
+            return cmgr.getComments(csc);
         } catch (WebloggerException e) {
             log.error("ERROR: getting recent comments", e);
         }
@@ -750,7 +754,7 @@ public class Weblog implements Serializable {
     public int getTodaysHits() {
         try {
             Weblogger roller = WebloggerFactory.getWeblogger();
-            WeblogEntryManager mgr = roller.getWeblogEntryManager();
+            HitCountManager mgr = roller.getHitCountManager();
             WeblogHitCount hitCount = mgr.getHitCountByWeblog(this);
             
             return (hitCount != null) ? hitCount.getDailyHits() : 0;
@@ -778,7 +782,7 @@ public class Weblog implements Serializable {
         }        
         try {            
             Weblogger roller = WebloggerFactory.getWeblogger();
-            WeblogEntryManager wmgr = roller.getWeblogEntryManager();
+            TagManager wmgr = roller.getTagManager();
             return wmgr.getPopularTags(this, startDate, 0, length);
         } catch (Exception e) {
             log.error("ERROR: fetching popular tags for weblog " + this.getName(), e);
@@ -790,8 +794,8 @@ public class Weblog implements Serializable {
         long count = 0;
         try {
             Weblogger roller = WebloggerFactory.getWeblogger();
-            WeblogEntryManager mgr = roller.getWeblogEntryManager();
-            count = mgr.getCommentCount(this);            
+            CommentManager cmgr = roller.getCommentManager();
+            count = cmgr.getCommentCount(this);            
         } catch (WebloggerException e) {
             log.error("Error getting comment count for weblog " + this.getName(), e);
         }

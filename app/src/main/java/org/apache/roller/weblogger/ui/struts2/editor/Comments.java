@@ -32,6 +32,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.WebloggerFactory;
+import org.apache.roller.weblogger.business.CommentManager;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
 import org.apache.roller.weblogger.business.search.IndexManager;
 import org.apache.roller.weblogger.config.WebloggerConfig;
@@ -99,6 +100,8 @@ public class Comments extends UIAction {
         try {
             WeblogEntryManager wmgr = WebloggerFactory.getWeblogger()
                     .getWeblogEntryManager();
+            CommentManager cmgr = WebloggerFactory.getWeblogger()
+                    .getCommentManager();
 
             // lookup weblog entry if necessary
             if (!StringUtils.isEmpty(getBean().getEntryId())) {
@@ -109,7 +112,7 @@ public class Comments extends UIAction {
             csc.setOffset(getBean().getPage() * COUNT);
             csc.setMaxResults(COUNT + 1);
 
-            List<WeblogEntryComment> rawComments = wmgr.getComments(csc);
+            List<WeblogEntryComment> rawComments = cmgr.getComments(csc);
             comments = new ArrayList<>();
             comments.addAll(rawComments);
             if (!comments.isEmpty()) {
@@ -183,11 +186,11 @@ public class Comments extends UIAction {
         getBean().loadCheckboxes(getPager().getItems());
 
         try {
-            WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+            CommentManager cmgr = WebloggerFactory.getWeblogger().getCommentManager();
 
             CommentSearchCriteria csc = getCommentSearchCriteria();
 
-            List<WeblogEntryComment> allMatchingComments = wmgr.getComments(csc);
+            List<WeblogEntryComment> allMatchingComments = cmgr.getComments(csc);
             if (allMatchingComments.size() > COUNT) {
                 setBulkDeleteCount(allMatchingComments.size());
             }
@@ -219,7 +222,7 @@ public class Comments extends UIAction {
     public String delete() {
 
         try {
-            WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+            CommentManager cmgr = WebloggerFactory.getWeblogger().getCommentManager();
 
             // if search is enabled, we will need to re-index all entries with
             // comments that have been deleted, so build a list of those entries
@@ -228,13 +231,13 @@ public class Comments extends UIAction {
 
                 CommentSearchCriteria csc = getCommentSearchCriteria();
 
-                List<WeblogEntryComment> targetted = wmgr.getComments(csc);
+                List<WeblogEntryComment> targetted = cmgr.getComments(csc);
                 for (WeblogEntryComment comment : targetted) {
                     reindexEntries.add(comment.getWeblogEntry());
                 }
             }
 
-            int deleted = wmgr.removeMatchingComments(getActionWeblog(), null,
+            int deleted = cmgr.removeMatchingComments(getActionWeblog(), null,
                     getBean().getSearchString(), getBean().getStartDate(),
                     getBean().getEndDate(), getBean().getStatus());
 
@@ -268,7 +271,7 @@ public class Comments extends UIAction {
     public String update() {
 
         try {
-            WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+            CommentManager cmgr = WebloggerFactory.getWeblogger().getCommentManager();
 
             List<WeblogEntryComment> flushList = new ArrayList<>();
 
@@ -284,14 +287,14 @@ public class Comments extends UIAction {
 
                 WeblogEntryComment deleteComment = null;
                 for (String deleteId : deletes) {
-                    deleteComment = wmgr.getComment(deleteId);
+                    deleteComment = cmgr.getComment(deleteId);
 
                     // make sure comment is tied to action weblog
                     if (getActionWeblog().equals(
                             deleteComment.getWeblogEntry().getWebsite())) {
                         flushList.add(deleteComment);
                         reindexList.add(deleteComment.getWeblogEntry());
-                        wmgr.removeComment(deleteComment);
+                        cmgr.removeComment(deleteComment);
                     }
                 }
             }
@@ -315,7 +318,7 @@ public class Comments extends UIAction {
                     continue;
                 }
 
-                WeblogEntryComment comment = wmgr.getComment(ids[i]);
+                WeblogEntryComment comment = cmgr.getComment(ids[i]);
 
                 // make sure comment is tied to action weblog
                 if (getActionWeblog().equals(
@@ -331,7 +334,7 @@ public class Comments extends UIAction {
 
                         log.debug("Marking as approved - " + comment.getId());
                         comment.setStatus(ApprovalStatus.APPROVED);
-                        wmgr.saveComment(comment);
+                        cmgr.saveComment(comment);
 
                         flushList.add(comment);
                         reindexList.add(comment.getWeblogEntry());
@@ -339,7 +342,7 @@ public class Comments extends UIAction {
                     } else if (spamIds.contains(ids[i])) {
                         log.debug("Marking as spam - " + comment.getId());
                         comment.setStatus(ApprovalStatus.SPAM);
-                        wmgr.saveComment(comment);
+                        cmgr.saveComment(comment);
 
                         flushList.add(comment);
                         reindexList.add(comment.getWeblogEntry());
@@ -348,7 +351,7 @@ public class Comments extends UIAction {
                             .getStatus())) {
                         log.debug("Marking as disapproved - " + comment.getId());
                         comment.setStatus(ApprovalStatus.DISAPPROVED);
-                        wmgr.saveComment(comment);
+                        cmgr.saveComment(comment);
 
                         flushList.add(comment);
                         reindexList.add(comment.getWeblogEntry());

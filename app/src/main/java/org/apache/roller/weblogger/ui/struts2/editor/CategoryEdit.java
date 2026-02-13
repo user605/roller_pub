@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.WebloggerFactory;
-import org.apache.roller.weblogger.business.WeblogEntryManager;
+import org.apache.roller.weblogger.business.CategoryManager;
 import org.apache.roller.weblogger.pojos.WeblogCategory;
 import org.apache.roller.weblogger.pojos.WeblogPermission;
 import org.apache.roller.weblogger.ui.struts2.util.UIAction;
@@ -73,7 +73,7 @@ public class CategoryEdit extends UIAction {
 
         } else {
             try {
-                WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+                CategoryManager wmgr = WebloggerFactory.getWeblogger().getCategoryManager();
                 category = wmgr.getWeblogCategory(getBean().getId());
             } catch (WebloggerException ex) {
                 log.error("Error looking up category", ex);
@@ -112,7 +112,7 @@ public class CategoryEdit extends UIAction {
                 getBean().copyTo(category);
 
                 // save changes
-                WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+                CategoryManager wmgr = WebloggerFactory.getWeblogger().getCategoryManager();
                 if (isAdd()) {
                     getActionWeblog().addCategory(category);
                     category.calculatePosition();

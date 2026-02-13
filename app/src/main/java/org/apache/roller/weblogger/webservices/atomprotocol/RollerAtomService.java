@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.roller.weblogger.WebloggerException;
+import org.apache.roller.weblogger.business.CategoryManager;
 import org.apache.roller.weblogger.business.MediaFileManager;
 import org.apache.roller.weblogger.business.Weblogger;
 import org.apache.roller.weblogger.business.WebloggerFactory;
@@ -91,7 +92,7 @@ public class RollerAtomService extends AtomService {
                     Categories cats = new Categories();
                     cats.setFixed(true);
                     cats.setScheme(getWeblogCategoryScheme(weblog));
-                    List<WeblogCategory> rollerCats = roller.getWeblogEntryManager().getWeblogCategories(weblog);
+                    List<WeblogCategory> rollerCats = roller.getCategoryManager().getWeblogCategories(weblog);
                     for (WeblogCategory rollerCat : rollerCats) {
                         Category cat = new Category();
                         cat.setTerm(rollerCat.getName());

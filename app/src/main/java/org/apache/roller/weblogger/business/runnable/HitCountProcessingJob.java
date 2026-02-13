@@ -26,8 +26,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.roller.util.RollerConstants;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.HitCountQueue;
+import org.apache.roller.weblogger.business.HitCountManager;
 import org.apache.roller.weblogger.business.WebloggerFactory;
-import org.apache.roller.weblogger.business.WeblogEntryManager;
 import org.apache.roller.weblogger.business.WeblogManager;
 import org.apache.roller.weblogger.pojos.Weblog;
 
@@ -54,7 +54,7 @@ public class HitCountProcessingJob implements Job {
     public void execute() {
         
         WeblogManager wmgr = WebloggerFactory.getWeblogger().getWeblogManager();
-        WeblogEntryManager emgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        HitCountManager emgr = WebloggerFactory.getWeblogger().getHitCountManager();
         
         HitCountQueue hitCounter = HitCountQueue.getInstance();
         

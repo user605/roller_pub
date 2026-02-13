@@ -23,6 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.roller.weblogger.WebloggerException;
+import org.apache.roller.weblogger.business.CategoryManager;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
 import org.apache.roller.weblogger.business.WebloggerFactory;
 import org.apache.roller.weblogger.config.WebloggerConfig;
@@ -383,8 +384,8 @@ public class WeblogPageRequest extends WeblogRequest {
 
         if (weblogCategory == null && weblogCategoryName != null) {
             try {
-                WeblogEntryManager wmgr = WebloggerFactory.getWeblogger()
-                        .getWeblogEntryManager();
+                CategoryManager wmgr = WebloggerFactory.getWeblogger()
+                        .getCategoryManager();
                 weblogCategory = wmgr.getWeblogCategoryByName(getWeblog(),
                         weblogCategoryName);
             } catch (WebloggerException ex) {

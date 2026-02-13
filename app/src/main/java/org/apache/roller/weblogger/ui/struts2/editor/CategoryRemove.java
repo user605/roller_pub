@@ -27,7 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.WebloggerFactory;
-import org.apache.roller.weblogger.business.WeblogEntryManager;
+import org.apache.roller.weblogger.business.CategoryManager;
 import org.apache.roller.weblogger.pojos.WeblogCategory;
 import org.apache.roller.weblogger.pojos.WeblogPermission;
 import org.apache.roller.weblogger.ui.struts2.util.UIAction;
@@ -71,7 +71,7 @@ public class CategoryRemove extends UIAction {
     @Override
     public void myPrepare() {
         try {
-            WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+            CategoryManager wmgr = WebloggerFactory.getWeblogger().getCategoryManager();
             if(!StringUtils.isEmpty(getRemoveId())) {
                 setCategory(wmgr.getWeblogCategory(getRemoveId()));
             }
@@ -88,7 +88,7 @@ public class CategoryRemove extends UIAction {
     public String execute() {
         try {
             // Build list of categories that the removed category's blog entries (if any) can be moved to
-            WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+            CategoryManager wmgr = WebloggerFactory.getWeblogger().getCategoryManager();
             List<WeblogCategory> cats = wmgr.getWeblogCategories(getActionWeblog());
             for (WeblogCategory cat : cats) {
                 if (!cat.getId().equals(getRemoveId())) {
@@ -109,7 +109,7 @@ public class CategoryRemove extends UIAction {
         
         if(getCategory() != null) {
             try {
-                WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+                CategoryManager wmgr = WebloggerFactory.getWeblogger().getCategoryManager();
 
                 if (getTargetCategoryId() != null) {
                     WeblogCategory target = wmgr.getWeblogCategory(getTargetCategoryId());

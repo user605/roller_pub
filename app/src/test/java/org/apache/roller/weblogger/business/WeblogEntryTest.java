@@ -490,6 +490,7 @@ public class WeblogEntryTest  {
     public void testTagsExist() throws Exception {
         
         WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        TagManager tagMgr = WebloggerFactory.getWeblogger().getTagManager();
 
         testWeblog = TestUtils.getManagedWebsite(testWeblog);
         testUser = TestUtils.getManagedUser(testUser);
@@ -518,15 +519,15 @@ public class WeblogEntryTest  {
         tags2.add("blahtag");
         
         // test site-wide
-        assertTrue(mgr.getTagComboExists(tags2, null));
-        assertFalse(mgr.getTagComboExists(tags1, null));
+        assertTrue(tagMgr.getTagComboExists(tags2, null));
+        assertFalse(tagMgr.getTagComboExists(tags1, null));
         
         // test weblog specific
         testWeblog = TestUtils.getManagedWebsite(testWeblog);
         weblog = TestUtils.getManagedWebsite(weblog);
-        assertTrue(mgr.getTagComboExists(tags2, testWeblog));
-        assertFalse(mgr.getTagComboExists(tags1, testWeblog));
-        assertFalse(mgr.getTagComboExists(tags2, weblog));
+        assertTrue(tagMgr.getTagComboExists(tags2, testWeblog));
+        assertFalse(tagMgr.getTagComboExists(tags1, testWeblog));
+        assertFalse(tagMgr.getTagComboExists(tags2, weblog));
         
         // teardown our test data
         TestUtils.teardownWeblogEntry(id1);
@@ -708,6 +709,7 @@ public class WeblogEntryTest  {
     public void testTagAggregates() throws Exception {
         log.info("BEGIN");
         WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        TagManager tagMgr = WebloggerFactory.getWeblogger().getTagManager();
 
         testWeblog = TestUtils.getManagedWebsite(testWeblog);
         testUser = TestUtils.getManagedUser(testUser);
@@ -717,15 +719,15 @@ public class WeblogEntryTest  {
             // let's make sure we are starting from scratch
 
             // site-wide
-            List<TagStat> tags = mgr.getTags(null, null, null, 0, -1);
+            List<TagStat> tags = tagMgr.getTags(null, null, null, 0, -1);
             assertEquals(0, tags.size());
 
             // first weblog
-            tags = mgr.getTags(testWeblog, null, null, 0, -1);
+            tags = tagMgr.getTags(testWeblog, null, null, 0, -1);
             assertEquals(0, tags.size());
 
             // second weblog
-            tags = mgr.getTags(testWeblog2, null, null, 0, -1);
+            tags = tagMgr.getTags(testWeblog2, null, null, 0, -1);
             assertEquals(0, tags.size());
 
             // setup some test entries to use
@@ -743,7 +745,7 @@ public class WeblogEntryTest  {
             TestUtils.endSession(true);
 
             testWeblog = TestUtils.getManagedWebsite(testWeblog);
-            tags = mgr.getTags(testWeblog, null, null, 0, -1);
+            tags = tagMgr.getTags(testWeblog, null, null, 0, -1);
             assertEquals(3, tags.size());
 
             HashMap<String,Integer> expectedWeblogTags = new HashMap<String,Integer>();
@@ -771,7 +773,7 @@ public class WeblogEntryTest  {
             TestUtils.endSession(true);
 
             // let's fetch "site" tags now
-            tags = mgr.getTags(null, null, null, 0, -1);
+            tags = tagMgr.getTags(null, null, null, 0, -1);
             assertEquals(4, tags.size());
 
             HashMap<String, Integer> expectedSiteTags = new HashMap<String, Integer>();
@@ -798,7 +800,7 @@ public class WeblogEntryTest  {
             TestUtils.endSession(true);
 
             testWeblog = TestUtils.getManagedWebsite(testWeblog);
-            tags = mgr.getTags(testWeblog, null, null, 0, -1);
+            tags = tagMgr.getTags(testWeblog, null, null, 0, -1);
             assertEquals(4, tags.size());
 
             expectedWeblogTags = new HashMap<String, Integer>();
@@ -816,7 +818,7 @@ public class WeblogEntryTest  {
                 assertEquals(expectedCount.intValue(), stat.getCount(), stat.getName());
             }
 
-            tags = mgr.getTags(null, null, null, 0, -1);
+            tags = tagMgr.getTags(null, null, null, 0, -1);
             assertEquals(5, tags.size());
 
             expectedSiteTags = new HashMap<String, Integer>();
@@ -857,19 +859,20 @@ public class WeblogEntryTest  {
         testUser = TestUtils.getManagedUser(testUser);
 
         WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        TagManager tagMgr = WebloggerFactory.getWeblogger().getTagManager();
 
         // let's make sure we are starting from scratch
 
         // site-wide
-        List<TagStat> tags = mgr.getTags(null, null, null, 0, -1);
+        List<TagStat> tags = tagMgr.getTags(null, null, null, 0, -1);
         assertEquals(0, tags.size());
 
         // first weblog
-        tags = mgr.getTags(testWeblog, null, null, 0, -1);
+        tags = tagMgr.getTags(testWeblog, null, null, 0, -1);
         assertEquals(0, tags.size());
 
         // second weblog
-        tags = mgr.getTags(testWeblog2, null, null, 0, -1);
+        tags = tagMgr.getTags(testWeblog2, null, null, 0, -1);
         assertEquals(0, tags.size());
 
         // setup some test entries to use
@@ -881,7 +884,7 @@ public class WeblogEntryTest  {
 
         TestUtils.endSession(true);
 
-        tags = mgr.getTags(testWeblog, null, null, 0, -1);
+        tags = tagMgr.getTags(testWeblog, null, null, 0, -1);
         assertEquals(2, tags.size());
 
         HashMap<String, Integer> expectedWeblogTags = new HashMap<String, Integer>();
@@ -905,7 +908,7 @@ public class WeblogEntryTest  {
         TestUtils.endSession(true);
         
         // let's fetch "site" tags now
-        tags = mgr.getTags(null, null, null, 0, -1);
+        tags = tagMgr.getTags(null, null, null, 0, -1);
         assertEquals(3, tags.size());
 
         HashMap<String, Integer> expectedSiteTags = new HashMap<String, Integer>();
@@ -1001,6 +1004,7 @@ public class WeblogEntryTest  {
     public void testWeblogStats() throws Exception {
 
         WeblogEntryManager emgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        CommentManager cmgr = WebloggerFactory.getWeblogger().getCommentManager();
         WeblogManager wmgr = WebloggerFactory.getWeblogger().getWeblogManager();
         UserManager umgr = WebloggerFactory.getWeblogger().getUserManager();
         
@@ -1039,7 +1043,7 @@ public class WeblogEntryTest  {
 
             assertEquals(2L, blog1.getCommentCount());
             assertEquals(3L, blog2.getCommentCount());
-            assertEquals(5L, emgr.getCommentCount());
+            assertEquals(5L, cmgr.getCommentCount());
 
             assertEquals(4L, wmgr.getWeblogCount());
             assertEquals(existingUserCount + 2L, umgr.getUserCount());

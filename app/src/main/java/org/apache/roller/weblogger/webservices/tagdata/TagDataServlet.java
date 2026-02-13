@@ -30,7 +30,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.URLStrategy;
-import org.apache.roller.weblogger.business.WeblogEntryManager;
+import org.apache.roller.weblogger.business.TagManager;
 import org.apache.roller.weblogger.business.Weblogger;
 import org.apache.roller.weblogger.business.WebloggerFactory;
 import org.apache.roller.weblogger.business.WeblogManager;
@@ -128,7 +128,7 @@ public class TagDataServlet extends HttpServlet {
         Weblog weblog;
         try {
             WeblogManager wmgr = roller.getWeblogManager();
-            WeblogEntryManager emgr = roller.getWeblogEntryManager();
+            TagManager emgr = roller.getTagManager();
             weblog = wmgr.getWeblogByHandle(handle);
             if(weblog == null) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Weblog not found");

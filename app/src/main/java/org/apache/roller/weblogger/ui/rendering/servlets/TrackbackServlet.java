@@ -33,6 +33,7 @@ import org.apache.roller.util.RollerConstants;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.config.WebloggerRuntimeConfig;
 import org.apache.roller.weblogger.business.WebloggerFactory;
+import org.apache.roller.weblogger.business.CommentManager;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
 import org.apache.roller.weblogger.pojos.WeblogEntryComment;
 import org.apache.roller.weblogger.pojos.WeblogEntryComment.ApprovalStatus;
@@ -182,7 +183,7 @@ public class TrackbackServlet extends HttpServlet {
                 if (!ApprovalStatus.SPAM.equals(comment.getStatus()) ||
                         !WebloggerRuntimeConfig.getBooleanProperty("trackbacks.ignoreSpam.enabled")) {
                     
-                    WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+                    CommentManager mgr = WebloggerFactory.getWeblogger().getCommentManager();
                     mgr.saveComment(comment);
                     WebloggerFactory.getWeblogger().flush();
                     

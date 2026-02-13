@@ -47,6 +47,7 @@ import org.apache.roller.util.RollerConstants;
 import org.apache.roller.util.UUIDGenerator;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.UserManager;
+import org.apache.roller.weblogger.business.CommentManager;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
 import org.apache.roller.weblogger.business.WebloggerFactory;
 import org.apache.roller.weblogger.business.plugins.entry.WeblogEntryPlugin;
@@ -722,13 +723,13 @@ public class WeblogEntry implements Serializable {
     @Deprecated
     public List<WeblogEntryComment> getComments(boolean ignoreSpam, boolean approvedOnly) {
         try {
-            WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+            CommentManager cmgr = WebloggerFactory.getWeblogger().getCommentManager();
 
             CommentSearchCriteria csc = new CommentSearchCriteria();
             csc.setWeblog(getWebsite());
             csc.setEntry(this);
             csc.setStatus(approvedOnly ? WeblogEntryComment.ApprovalStatus.APPROVED : null);
-            return wmgr.getComments(csc);
+            return cmgr.getComments(csc);
         } catch (WebloggerException alreadyLogged) {}
         
         return Collections.emptyList();

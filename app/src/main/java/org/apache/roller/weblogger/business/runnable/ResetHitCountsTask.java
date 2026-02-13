@@ -24,7 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.WebloggerFactory;
-import org.apache.roller.weblogger.business.WeblogEntryManager;
+import org.apache.roller.weblogger.business.HitCountManager;
 
 
 /**
@@ -130,7 +130,7 @@ public class ResetHitCountsTask extends RollerTaskWithLeasing {
         try {
             log.info("task started");
 
-            WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+            HitCountManager mgr = WebloggerFactory.getWeblogger().getHitCountManager();
             mgr.resetAllHitCounts();
             WebloggerFactory.getWeblogger().flush();
 

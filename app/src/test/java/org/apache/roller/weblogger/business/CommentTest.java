@@ -87,7 +87,7 @@ public class CommentTest  {
      */
     public void testCommentCRUD() throws Exception {
         
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        CommentManager mgr = WebloggerFactory.getWeblogger().getCommentManager();
         
         WeblogEntryComment comment = new WeblogEntryComment();
         comment.setName("test");
@@ -134,7 +134,7 @@ public class CommentTest  {
      */
     public void testCommentLookups() throws Exception {
         
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        CommentManager mgr = WebloggerFactory.getWeblogger().getCommentManager();
         List<WeblogEntryComment> comments;
         
         // we need some comments to play with

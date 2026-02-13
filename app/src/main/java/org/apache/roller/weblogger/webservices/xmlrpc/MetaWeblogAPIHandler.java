@@ -29,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.roller.util.RollerConstants;
+import org.apache.roller.weblogger.business.CategoryManager;
 import org.apache.roller.weblogger.business.MediaFileManager;
 import org.apache.roller.weblogger.business.URLStrategy;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
@@ -86,8 +87,8 @@ public class MetaWeblogAPIHandler extends BloggerAPIHandler {
         Weblogger roller = WebloggerFactory.getWeblogger();
         try {
             Hashtable<String, Object> result = new Hashtable<>();
-            WeblogEntryManager weblogMgr = roller.getWeblogEntryManager();
-            List<WeblogCategory> cats = weblogMgr.getWeblogCategories(website);
+            CategoryManager catMgr = roller.getCategoryManager();
+            List<WeblogCategory> cats = catMgr.getWeblogCategories(website);
             for (WeblogCategory category : cats) {
                 result.put(category.getName(),
                         createCategoryStruct(category, userid));
@@ -176,8 +177,9 @@ public class MetaWeblogAPIHandler extends BloggerAPIHandler {
             
             if ( cat != null ) {
                 // Use first category specified by request
+                CategoryManager catMgr = roller.getCategoryManager();
                 WeblogCategory cd =
-                        weblogMgr.getWeblogCategoryByName(entry.getWebsite(), cat);
+                        catMgr.getWeblogCategoryByName(entry.getWebsite(), cat);
                 entry.setCategory(cd);
             }
             
@@ -275,6 +277,7 @@ public class MetaWeblogAPIHandler extends BloggerAPIHandler {
             // MetaWeblog supports multiple cats, Weblogger supports one/entry
             // so here we take accept the first category that exists
             WeblogCategory rollerCat = null;
+            CategoryManager catMgr = roller.getCategoryManager();
             if ( postcontent.get("categories") != null ) {
                 Object[] cats = (Object[])postcontent.get("categories");
                 if (cats != null && cats.length > 0) {
@@ -282,7 +285,7 @@ public class MetaWeblogAPIHandler extends BloggerAPIHandler {
                     mLogger.debug("cat to string - "+cats[0].toString());
                     for (int i=0; i<cats.length; i++) {
                         Object cat = cats[i];
-                        rollerCat = weblogMgr.getWeblogCategoryByName(website, (String)cat);
+                        rollerCat = catMgr.getWeblogCategoryByName(website, (String)cat);
                         if (rollerCat != null) {
                             entry.setCategory(rollerCat);
                             break;

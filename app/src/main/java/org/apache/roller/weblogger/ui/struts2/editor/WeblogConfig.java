@@ -27,7 +27,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.roller.weblogger.business.plugins.PluginManager;
 import org.apache.roller.weblogger.business.WebloggerFactory;
-import org.apache.roller.weblogger.business.WeblogEntryManager;
+import org.apache.roller.weblogger.business.CommentManager;
+import org.apache.roller.weblogger.business.CategoryManager;
 import org.apache.roller.weblogger.business.plugins.entry.WeblogEntryPlugin;
 import org.apache.roller.weblogger.config.WebloggerConfig;
 import org.apache.roller.weblogger.config.WebloggerRuntimeConfig;
@@ -76,7 +77,7 @@ public class WeblogConfig extends UIAction {
     public void myPrepare() {
 
         try {
-            WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+            CategoryManager wmgr = WebloggerFactory.getWeblogger().getCategoryManager();
             
             // set categories list
             setWeblogCategories(wmgr.getWeblogCategories(getActionWeblog()));
@@ -123,7 +124,7 @@ public class WeblogConfig extends UIAction {
         
         if(!hasActionErrors()) {
             try {
-                WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+            CategoryManager wmgr = WebloggerFactory.getWeblogger().getCategoryManager();
 
                 Weblog weblog = getActionWeblog();
 
@@ -157,7 +158,8 @@ public class WeblogConfig extends UIAction {
 
                 // ROL-1050: apply comment defaults to existing entries
                 if(getBean().getApplyCommentDefaults()) {
-                    wmgr.applyCommentDefaultsToEntries(weblog);
+                    CommentManager commentMgr = WebloggerFactory.getWeblogger().getCommentManager();
+                    commentMgr.applyCommentDefaultsToEntries(weblog);
                 }
 
                 // flush

@@ -36,6 +36,9 @@ import org.apache.roller.planet.pojos.SubscriptionEntry;
 import org.apache.roller.weblogger.business.BookmarkManager;
 import org.apache.roller.weblogger.business.DatabaseProvider;
 import org.apache.roller.weblogger.business.UserManager;
+import org.apache.roller.weblogger.business.CategoryManager;
+import org.apache.roller.weblogger.business.CommentManager;
+import org.apache.roller.weblogger.business.HitCountManager;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
 import org.apache.roller.weblogger.business.WeblogManager;
 import org.apache.roller.weblogger.business.WebloggerFactory;
@@ -321,8 +324,8 @@ public final class TestUtils {
     public static WeblogCategory setupWeblogCategory(Weblog weblog, String name)
             throws Exception {
 
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger()
-                .getWeblogEntryManager();
+        CategoryManager mgr = WebloggerFactory.getWeblogger()
+                .getCategoryManager();
 
         WeblogCategory testCat = new WeblogCategory(weblog, name, null, null);
         mgr.saveWeblogCategory(testCat);
@@ -346,8 +349,8 @@ public final class TestUtils {
     public static void teardownWeblogCategory(String id) throws Exception {
 
         // lookup the cat
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger()
-                .getWeblogEntryManager();
+        CategoryManager mgr = WebloggerFactory.getWeblogger()
+                .getCategoryManager();
         WeblogCategory cat = mgr.getWeblogCategory(id);
 
         // remove the cat
@@ -451,8 +454,8 @@ public final class TestUtils {
         testComment.setStatus(ApprovalStatus.APPROVED);
 
         // store testComment
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger()
-                .getWeblogEntryManager();
+        CommentManager mgr = WebloggerFactory.getWeblogger()
+                .getCommentManager();
         mgr.saveComment(testComment);
 
         // flush to db
@@ -474,8 +477,8 @@ public final class TestUtils {
     public static void teardownComment(String id) throws Exception {
 
         // lookup the comment
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger()
-                .getWeblogEntryManager();
+        CommentManager mgr = WebloggerFactory.getWeblogger()
+                .getCommentManager();
         WeblogEntryComment comment = mgr.getComment(id);
 
         // remove the comment
@@ -579,8 +582,8 @@ public final class TestUtils {
     public static WeblogHitCount setupHitCount(Weblog weblog, int amount)
             throws Exception {
 
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger()
-                .getWeblogEntryManager();
+        HitCountManager mgr = WebloggerFactory.getWeblogger()
+                .getHitCountManager();
 
         // store
         WeblogHitCount testCount = new WeblogHitCount();
@@ -607,8 +610,8 @@ public final class TestUtils {
     public static void teardownHitCount(String id) throws Exception {
 
         // query for it
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger()
-                .getWeblogEntryManager();
+        HitCountManager mgr = WebloggerFactory.getWeblogger()
+                .getHitCountManager();
         WeblogHitCount testCount = mgr.getHitCount(id);
 
         // remove
@@ -687,7 +690,7 @@ public final class TestUtils {
      */
     public static WeblogCategory getManagedWeblogCategory(WeblogCategory cat)
             throws WebloggerException {
-        return WebloggerFactory.getWeblogger().getWeblogEntryManager()
+        return WebloggerFactory.getWeblogger().getCategoryManager()
                 .getWeblogCategory(cat.getId());
     }
 

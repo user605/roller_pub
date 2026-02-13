@@ -27,7 +27,7 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.apache.commons.text.WordUtils;
 import org.apache.roller.weblogger.business.Weblogger;
 import org.apache.roller.weblogger.business.WebloggerFactory;
-import org.apache.roller.weblogger.business.WeblogEntryManager;
+import org.apache.roller.weblogger.business.CommentManager;
 import org.apache.roller.weblogger.pojos.Weblog;
 import org.apache.roller.weblogger.pojos.WeblogEntryComment;
 import org.apache.roller.weblogger.pojos.WeblogPermission;
@@ -56,7 +56,7 @@ public class CommentDataServlet extends HttpServlet {
         
         Weblogger roller = WebloggerFactory.getWeblogger();
         try {
-            WeblogEntryManager wmgr = roller.getWeblogEntryManager();
+            CommentManager wmgr = roller.getCommentManager();
             WeblogEntryComment c = wmgr.getComment(request.getParameter("id"));
             if (c == null) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
@@ -95,7 +95,7 @@ public class CommentDataServlet extends HttpServlet {
 
         Weblogger roller = WebloggerFactory.getWeblogger();
         try {
-            WeblogEntryManager wmgr = roller.getWeblogEntryManager();
+            CommentManager wmgr = roller.getCommentManager();
             WeblogEntryComment c = wmgr.getComment(request.getParameter("id"));
             if (c == null) {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);

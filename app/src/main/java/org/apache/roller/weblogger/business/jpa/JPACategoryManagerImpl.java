@@ -129,7 +129,7 @@ public class JPACategoryManagerImpl implements CategoryManager {
     @Override
     public List<WeblogCategory> getWeblogCategories(Weblog website) throws WebloggerException {
         TypedQuery<WeblogCategory> q = strategy.getNamedQuery(
-                "WeblogCategory.getByWebsite", WeblogCategory.class);
+                "WeblogCategory.getByWeblog", WeblogCategory.class);
         q.setParameter(1, website);
         return q.getResultList();
     }

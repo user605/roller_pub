@@ -82,7 +82,7 @@ public class HitCountTest  {
     @Test
     public void testHitCountCRUD() throws Exception {
         
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        HitCountManager mgr = WebloggerFactory.getWeblogger().getHitCountManager();
         
         WeblogHitCount testCount = new WeblogHitCount();
         testCount.setWeblog(testWeblog);
@@ -123,7 +123,7 @@ public class HitCountTest  {
     @Test
     public void testHitCountLookups() throws Exception {
         
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        HitCountManager mgr = WebloggerFactory.getWeblogger().getHitCountManager();
         
         testWeblog = TestUtils.getManagedWebsite(testWeblog);
         WeblogHitCount testCount = new WeblogHitCount();
@@ -161,7 +161,7 @@ public class HitCountTest  {
     @Test
     public void testIncrementHitCount() throws Exception {
         
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        HitCountManager mgr = WebloggerFactory.getWeblogger().getHitCountManager();
         
         WeblogHitCount testCount = new WeblogHitCount();
         testWeblog = TestUtils.getManagedWebsite(testWeblog);
@@ -201,7 +201,7 @@ public class HitCountTest  {
     
     @Test
     public void testResetHitCounts() throws Exception {
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        HitCountManager mgr = WebloggerFactory.getWeblogger().getHitCountManager();
         
         testUser = TestUtils.getManagedUser(testUser);
         Weblog blog1 = TestUtils.setupWeblog("hitCntTest1", testUser);
@@ -263,7 +263,7 @@ public class HitCountTest  {
     @Test
     public void testHotWeblogs() throws Exception {
         
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        HitCountManager mgr = WebloggerFactory.getWeblogger().getHitCountManager();
         
         testUser = TestUtils.getManagedUser(testUser);
         Weblog blog1 = TestUtils.setupWeblog("hitCntHotTest1", testUser);

@@ -119,7 +119,7 @@ public class WeblogCategoryFunctionalityTest  {
         
         log.info("BEGIN");
         
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        CategoryManager mgr = WebloggerFactory.getWeblogger().getCategoryManager();
         
         WeblogCategory cat = mgr.getWeblogCategory(testCat.getId());
         assertNotNull(cat);
@@ -137,7 +137,7 @@ public class WeblogCategoryFunctionalityTest  {
         
         log.info("BEGIN");
         
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        CategoryManager mgr = WebloggerFactory.getWeblogger().getCategoryManager();
         
         testWeblog = TestUtils.getManagedWebsite(testWeblog);
         WeblogCategory cat = mgr.getWeblogCategoryByName(testWeblog, "catTest-cat1");
@@ -165,7 +165,7 @@ public class WeblogCategoryFunctionalityTest  {
         
         log.info("BEGIN");
         
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        CategoryManager mgr = WebloggerFactory.getWeblogger().getCategoryManager();
         
         testWeblog = TestUtils.getManagedWebsite(testWeblog);
         List<WeblogCategory> cats = mgr.getWeblogCategories(testWeblog);
@@ -181,7 +181,8 @@ public class WeblogCategoryFunctionalityTest  {
     @Test
     public void testMoveWeblogCategoryContents() throws Exception {
         log.info("BEGIN");
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        CategoryManager mgr = WebloggerFactory.getWeblogger().getCategoryManager();
+        WeblogEntryManager emgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
         WeblogEntry e1 = null;
         WeblogEntry e2 = null; 
         try {
@@ -235,8 +236,8 @@ public class WeblogCategoryFunctionalityTest  {
             assertEquals(0, c1.retrieveWeblogEntries(false).size());
 
         } finally {
-            mgr.removeWeblogEntry(TestUtils.getManagedWeblogEntry(e1));
-            mgr.removeWeblogEntry(TestUtils.getManagedWeblogEntry(e2));
+            emgr.removeWeblogEntry(TestUtils.getManagedWeblogEntry(e1));
+            emgr.removeWeblogEntry(TestUtils.getManagedWeblogEntry(e2));
         }
         
         log.info("END");

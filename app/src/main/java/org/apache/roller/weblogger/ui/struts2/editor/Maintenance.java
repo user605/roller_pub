@@ -23,7 +23,7 @@ import java.util.Date;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.roller.weblogger.business.search.IndexManager;
-import org.apache.roller.weblogger.business.WeblogEntryManager;
+import org.apache.roller.weblogger.business.HitCountManager;
 import org.apache.roller.weblogger.business.WebloggerFactory;
 import org.apache.roller.weblogger.pojos.Weblog;
 import org.apache.roller.weblogger.ui.struts2.util.UIAction;
@@ -105,8 +105,8 @@ public class Maintenance extends UIAction {
         try {
             Weblog weblog = getActionWeblog();
 
-            WeblogEntryManager mgr = WebloggerFactory.getWeblogger()
-                    .getWeblogEntryManager();
+            HitCountManager mgr = WebloggerFactory.getWeblogger()
+                    .getHitCountManager();
             mgr.resetHitCount(weblog);
 
             // some caches are based on weblog last-modified, so update it

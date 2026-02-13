@@ -22,6 +22,7 @@ log/
 target/
 
 velocity.log
+logs/
 
 tomcat-base
 docker/postgresql-data

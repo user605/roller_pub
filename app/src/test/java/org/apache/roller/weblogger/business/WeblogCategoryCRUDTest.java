@@ -88,7 +88,7 @@ public class WeblogCategoryCRUDTest  {
         
         log.info("BEGIN");
         
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        CategoryManager mgr = WebloggerFactory.getWeblogger().getCategoryManager();
         
         testWeblog = TestUtils.getManagedWebsite(testWeblog);
 
@@ -110,7 +110,7 @@ public class WeblogCategoryCRUDTest  {
         
         log.info("BEGIN");
         
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        CategoryManager mgr = WebloggerFactory.getWeblogger().getCategoryManager();
         WeblogCategory cat = null;
 
         // root category is always available
@@ -171,7 +171,7 @@ public class WeblogCategoryCRUDTest  {
         
         log.info("BEGIN");
         
-        WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+        CategoryManager mgr = WebloggerFactory.getWeblogger().getCategoryManager();
         
         // root category is always available
         testWeblog = TestUtils.getManagedWebsite(testWeblog);

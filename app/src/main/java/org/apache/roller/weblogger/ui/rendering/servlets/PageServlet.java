@@ -27,7 +27,7 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.apache.roller.util.RollerConstants;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.HitCountQueue;
-import org.apache.roller.weblogger.business.WeblogEntryManager;
+import org.apache.roller.weblogger.business.TagManager;
 import org.apache.roller.weblogger.business.WebloggerFactory;
 import org.apache.roller.weblogger.business.themes.ThemeManager;
 import org.apache.roller.weblogger.config.WebloggerConfig;
@@ -388,8 +388,8 @@ public class PageServlet extends HttpServlet {
 
             try {
                 // tags specified. make sure they exist.
-                WeblogEntryManager wmgr = WebloggerFactory.getWeblogger()
-                        .getWeblogEntryManager();
+                TagManager wmgr = WebloggerFactory.getWeblogger()
+                        .getTagManager();
                 invalid = !wmgr.getTagComboExists(pageRequest.getTags(),
                         (isSiteWide) ? null : weblog);
             } catch (WebloggerException ex) {

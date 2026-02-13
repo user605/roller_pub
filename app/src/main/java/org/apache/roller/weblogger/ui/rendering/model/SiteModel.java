@@ -31,8 +31,11 @@ import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.URLStrategy;
 import org.apache.roller.weblogger.business.Weblogger;
 import org.apache.roller.weblogger.business.WebloggerFactory;
+import org.apache.roller.weblogger.business.HitCountManager;
+import org.apache.roller.weblogger.business.TagManager;
 import org.apache.roller.weblogger.business.UserManager;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
+import org.apache.roller.weblogger.business.CommentManager;
 import org.apache.roller.weblogger.business.jpa.JPAWeblogEntryManagerImpl;
 import org.apache.roller.weblogger.pojos.TagStat;
 import org.apache.roller.weblogger.pojos.WeblogHitCount;
@@ -435,7 +438,7 @@ public class SiteModel implements Model {
         
         List<StatCount> results = new ArrayList<>();
         try {
-            WeblogEntryManager mgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+            HitCountManager mgr = WebloggerFactory.getWeblogger().getHitCountManager();
             List<WeblogHitCount> hotBlogs = mgr.getHotWeblogs(sinceDays, 0, length);
             
             for (WeblogHitCount hitCount : hotBlogs) {
@@ -531,7 +534,7 @@ public class SiteModel implements Model {
         
         try {            
             Weblogger roller = WebloggerFactory.getWeblogger();
-            WeblogEntryManager wmgr = roller.getWeblogEntryManager();
+            TagManager wmgr = roller.getTagManager();
             return wmgr.getPopularTags(null, startDate, 0, length);
         } catch (Exception e) {
             log.error("ERROR: fetching site tags list", e);
@@ -544,7 +547,7 @@ public class SiteModel implements Model {
         long count = 0;
         try {
             Weblogger roller = WebloggerFactory.getWeblogger();
-            WeblogEntryManager mgr = roller.getWeblogEntryManager();
+            CommentManager mgr = roller.getCommentManager();
             count = mgr.getCommentCount();            
         } catch (WebloggerException e) {
             log.error("Error getting comment count for site ", e);

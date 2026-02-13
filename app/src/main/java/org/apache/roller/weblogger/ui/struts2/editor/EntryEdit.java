@@ -33,6 +33,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.roller.util.DateUtil;
 import org.apache.roller.util.RollerConstants;
 import org.apache.roller.weblogger.WebloggerException;
+import org.apache.roller.weblogger.business.CategoryManager;
 import org.apache.roller.weblogger.business.WebloggerFactory;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
 import org.apache.roller.weblogger.business.plugins.PluginManager;
@@ -428,8 +429,8 @@ public final class EntryEdit extends UIAction {
      */
     public List<WeblogCategory> getCategories() {
         try {
-            WeblogEntryManager wmgr = WebloggerFactory.getWeblogger()
-                    .getWeblogEntryManager();
+            CategoryManager wmgr = WebloggerFactory.getWeblogger()
+                    .getCategoryManager();
             return wmgr.getWeblogCategories(getActionWeblog());
         } catch (WebloggerException ex) {
             log.error(

@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.roller.weblogger.business.MediaFileManager;
+import org.apache.roller.weblogger.business.TagManager;
 import org.apache.roller.weblogger.business.UserManager;
 import org.apache.roller.weblogger.business.WeblogEntryManager;
 import org.apache.roller.weblogger.business.WeblogManager;
@@ -125,6 +126,7 @@ public class JPAWeblogManagerImpl implements WeblogManager {
         
         UserManager        umgr = roller.getUserManager();
         WeblogEntryManager emgr = roller.getWeblogEntryManager();
+        TagManager         tmgr = roller.getTagManager();
 
         // remove tags
         TypedQuery<WeblogEntryTag> tagQuery = strategy.getNamedQuery("WeblogEntryTag.getByWeblog",
@@ -140,7 +142,7 @@ public class JPAWeblogManagerImpl implements WeblogManager {
         }
         
         // remove site tag aggregates
-        List<TagStat> tags = emgr.getTags(weblog, null, null, 0, -1);
+        List<TagStat> tags = tmgr.getTags(weblog, null, null, 0, -1);
         updateTagAggregates(tags);
         
         // delete all weblog tag aggregates

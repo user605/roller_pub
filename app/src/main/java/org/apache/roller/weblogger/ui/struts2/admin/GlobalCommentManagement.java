@@ -30,7 +30,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.business.WebloggerFactory;
-import org.apache.roller.weblogger.business.WeblogEntryManager;
+import org.apache.roller.weblogger.business.CommentManager;
 import org.apache.roller.weblogger.pojos.CommentSearchCriteria;
 import org.apache.roller.weblogger.pojos.GlobalPermission;
 import org.apache.roller.weblogger.pojos.Weblog;
@@ -102,7 +102,7 @@ public class GlobalCommentManagement extends UIAction implements ServletRequestA
         List<WeblogEntryComment> comments = Collections.emptyList();
         boolean hasMore = false;
         try {
-            WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+            CommentManager wmgr = WebloggerFactory.getWeblogger().getCommentManager();
 
             CommentSearchCriteria csc = new CommentSearchCriteria();
             csc.setSearchText(getBean().getSearchString());
@@ -186,7 +186,7 @@ public class GlobalCommentManagement extends UIAction implements ServletRequestA
         getBean().loadCheckboxes(getPager().getItems());
         
         try {
-            WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+            CommentManager wmgr = WebloggerFactory.getWeblogger().getCommentManager();
 
             CommentSearchCriteria csc = new CommentSearchCriteria();
             csc.setSearchText(getBean().getSearchString());
@@ -216,7 +216,7 @@ public class GlobalCommentManagement extends UIAction implements ServletRequestA
     public String delete() {
         
         try {
-            WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+            CommentManager wmgr = WebloggerFactory.getWeblogger().getCommentManager();
             int deleted = wmgr.removeMatchingComments(
                     null,
                     null,
@@ -250,7 +250,7 @@ public class GlobalCommentManagement extends UIAction implements ServletRequestA
         }
         
         try {
-            WeblogEntryManager wmgr = WebloggerFactory.getWeblogger().getWeblogEntryManager();
+            CommentManager wmgr = WebloggerFactory.getWeblogger().getCommentManager();
             
             List<Weblog> flushList = new ArrayList<>();
             
