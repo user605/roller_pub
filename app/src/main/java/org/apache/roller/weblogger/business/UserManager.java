@@ -25,8 +25,8 @@ import org.apache.roller.weblogger.WebloggerException;
 import org.apache.roller.weblogger.pojos.RollerPermission;
 import org.apache.roller.weblogger.pojos.User;
 import org.apache.roller.weblogger.pojos.Weblog;
+import org.apache.roller.weblogger.pojos.WeblogEntry;
 import org.apache.roller.weblogger.pojos.WeblogPermission;
-
 
 /**
  * Interface to user, role and permissions management.
@@ -39,7 +39,7 @@ public interface UserManager {
      * Add a new user.
      * 
      * This method is used to provide supplemental data to new user accounts,
-     * such as adding the proper roles for the user.  This method should see if
+     * such as adding the proper roles ffevicol seor the user.  This method should see if
      * the new user is the first user and give that user the admin role if so.
      *
      * @param newUser User object to be added.
@@ -323,6 +323,17 @@ public interface UserManager {
      * Release any resources held by manager.
      */
     void release();
+
+    boolean hasGlobalPermission(User user, String action);
+
+    boolean hasGlobalPermissions(User user, List<String> actions);
+
+    public void resetPassword(User user, String newPassword);
+
+    /**
+     * Determine if the specified user has permissions to edit this entry.
+     */
+    boolean canEdit(WeblogEntry entry, User user) throws WebloggerException;
 }
 
 
